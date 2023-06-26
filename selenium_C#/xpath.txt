@@ -1,0 +1,41 @@
+/ - one by one(/html/body/div[2]) in example use second div
+// - jump to first element found(//h1 - jump to first h1 on the page)
+
+
+functions:
+//tagName[@attributeName='attributeValue'] - search by full atribute value
+//tagName[contains(@attributeName,'subStringOfValue')] - search buy partial attribute value
+//tagName[@attr1='value1'][@attr2='value2'] - search by 2 attribute values
+//*[name()='path'] - search by attribute name
+
+
+AND OR functions:
+//tagName[@attributeName='attributeValue' or @attributeName2='attributeValue3']
+//a[contains(@title,'Platfo')) and @class='dropdown-toggle']
+
+
+text() functions - used for searching visible text, not attribute value
+//tagName[text()='value'] - find full text match in tagName
+//tagName[.='textValue'] - find full text match in child element of tagName
+//tagName[contains(text(),'value')] - find partial text match
+//tagName[normalize-space()='value'] - trim spaces in text and serach it
+
+
+Parent and Child
+//a[@title='blog']/ancestor::ul - grandparent of a is ul
+//a[@title='blog']/ancestor::ul//a[@title='news'] - finding 'news' via grandfather element
+//a[@title='blog']/parent::li - direct parent of a
+//tagName[last()] - last tag
+//tagName[position=number] - select element with position number
+//(tagName(@title='boring'))[4] - find fourth boring
+
+
+xpath for svg
+//*[local-name()='svg'] - find first svg
+(//*[local-name()='svg'])[3] - find third svg
+//*[local-name()='svg'][@height='26pt'] - using additional attributes
+
+
+extras
+//*[@class="footer__socials"]//a/@href - get all links 
+//table[@id='tableOdds']//tbody/tr[position() mod 2 !=1] - select all elements odd(even) elements

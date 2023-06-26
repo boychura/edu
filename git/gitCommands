@@ -1,0 +1,52 @@
+commit - send changes to repository
+merge - slianie versiy v odny
+git config --global user.name "boychura"
+git config --global user.email boychura95@gmail.com
+git config --list
+git init //empty repository
+git clone <URL> - clone reposiroty
+.gitignore //file with list of files that sjould be ignored(exe, log files etc) gitignore.io - site where you can generate .gitignore
+git add //add changes from working directory to staging area(pre commint area)
+git add . //add all files to staging area
+git commit //send changes from staging area to local repository
+git push //send changes from local repository to remote repository
+git fetch //pull changes from remote repository to local repository
+git checkout <branch name> // switch to branch
+git checkout -b <branchname> //create branch
+git merge //zlutu zminu v working directory
+git merge origin/master
+git help <command>
+git status
+git log //aslo can be used to check commit hash code
+git ls-files -s //file list
+git rm //remove file
+git reset //reset changes
+git commit -am //combines add and comit
+git commit -m "Commit comment"
+git pull //combines fetch and merge
+git remote -v //list remote reposiroty
+git remote add origin https:\\github.repos.url //add remote repo
+git push origin <branchName>//push changes to branch on remote reposiroty(-u key is used for?..)
+git remote rm //remove remote repo
+git branch //list of branches in local repo
+git branch <name> //create a new branch "name"
+git branch -D <name> //delete branch
+gir branch -m <name> //rename current branch to 'name'
+git rebase main // виставити гілки одну за одним
+HEAD / поточний комміт(той з яким ти зараз працюєш) це як курсор
+git checkout HEAD^ //to one commit up
+git checkout HEAD~<number> //to number commits up
+git branch -f main HEAD~3 //Переміщує (насильно) гілку main на три предки позад HEAD.
+git reset HEAD~1 //reset last commit, best for local branch
+git revert HEAD //best remote branch, because it createa a copy of commit without changes
+git cherry-pick <Коміт1> <Коміт2> <...> //copy commits to head
+git rebase -i HEAD~4 //interactive rebase
+git commit --amend //edit last commit
+git tag tagName commitName //add tag to commit, you can checkout ot tag isntead a coomit name
+git describe <посилання> //це будь-що, що вказує на конкретний коміт. Якщо ти не вкажеш посилання, git використає поточну локацію (HEAD).
+git checkout //HEAD~^2~2
+git pull --rebase //це коротка форма для git fetch а потім git rebase!
+git checkout -b totallyNotMain o/main АБО git branch -u o/main foo //привязка кастомної гілки до віддаленої мейн
+git push origin main //vidprav gilky main na viddaleniu server
+git push origin foo^:bar //vidparv vse z peredostanniogo komita gilku foo na gilky bar na vidaalenomy serveri
+git fetch origin foo //zabere vsi comitu dlia gilku foo

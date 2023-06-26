@@ -1,0 +1,212 @@
+	Access Modifiers
+internal - in assembly only
+protected internal - in assembly and in derived classes in other assemblies
+private protected - in declared class and in derived
+	Method/variables Types
+static and const - nalejat' klasy a ne obekty
+const - must be initialized when they are declared
+readonly - can me initilized when declared or in constructor only
+ref - peredaem ssulky na takyshuiu peremennyu a ne sozdaem ee kopiu
+out - znachennia zminnoi z modufikatorom out, byde tum iake iy prusvoiv metod, prusvoennia znachennai v metodi obovaizkov
+	Polymorhpism
+virtual - метод який може бути перевизначеним але також може містити реалізацію в батьківському класі
+abstract - метод/клас без реалізації в батьківському класі який повинен бути перевизначеним
+sealed - клас/метод/проперті який не може бути унаслідуваним
+	Delegate
+delegirovat, est vozvrashsemoe znachenie, vozmojen vuzov izvne, mojna peredavat kak parametr metoda
+public delegate void DelegateName(int value); //delegate creation
+public static void PrintMoney(int money); //sugnatyra metoda iakogo mu hochemo vukorustatu y delegati mae vidpovidatu sugnatyri delegatu
+DelegateName delName = PrintMoney; //stvorennia ekzempliary delegaty
+delName(1000); //vukluk delegaty
+delName = PrintOtherThings; //prusvoennia inshogo metody delegaty
+public static void PrintHelper(DelegateName delName, int numToPrint) => delName(numToPrint); //delegat mojna peredavatu iak parametr
+delName =+ PrintNumber; //multicast delegatu
+	Event
+Event ce inkapsuliovanui delegat
+opoveshat, net vozvrashaemogo znachenia, vuzov tolko iznytri, mojno obiavliat na yrovne intefeisa
+public delegate void someEvent();
+public event someEvent newEvent; //ogoloshennia eventa
+	Anonymous Types
+Types without any name that can contain public read-only properties only
+Anonymous type is created using the new keyword and object initializer syntax.
+The implicitly typed variable - var, is used to hold the reference of an anonymous type.
+Anonymous type is a reference type data type and all the properties are read-only. It cannot contain methods, events, indexer or any other members.
+A field, property, event, indexer, or return type of a method cannot be anonymous types.
+The scope of an anonymous type is local to the method where it is defined. Mostly used in LINQ queries for temporary use.
+public delegate void PrintsSomethimg(int value);
+PrintSomething print = delegate(int val){ConsoleWriteLine("")}; //ogoloshennia i dodacha v delegat anonimnogo metody 
+var student = new {Id = 1, FirstName = "James", Address = new {Id = 1, City = "London"}}; //anonymous types can contain another type
+var studentList = new[] {new {Id = 1, FirstName = "James"}, new {Id = 2, FirstName = "Bob"}}; //anon array
+var students = from s in studentList
+				select new {Id = s.StudentID, Name = s.StudentName}; //LINQ
+	Anonymous Method 
+Anonymous methods in C# can be defined using the delegate keyword and can be assigned to a variable of delegate type.
+public delegate void PrintSomething(int value);
+PrintSomething print = delegate(int val){ConsoleWriteLine(${val});} //declaring Anonymous method
+Anonymous methods can also be passed to a method that accepts the delegate as a parameter.​
+PrintHelperMethod(delegate(int val){ConsoleWriteLine(${val});}, 100)
+Anonymous method can be defined using the delegate keyword​
+Anonymous method must be assigned to a delegate.​
+Anonymous method can access outer variables or functions.​
+Anonymous method can be passed as a parameter.​
+Anonymous method can be used as event handlers.​
+Anonymous Method Limitations​:
+It cannot contain jump statement like goto, break or continue.​
+It cannot access ref or out parameter of an outer method.​
+It cannot have or access unsafe code.​
+It cannot be used on the left side of the is operator.
+	Lambda Expression
+The lambda expression is a shorter way of representing anonymous method using some special syntax.
+(список_параметров) => выражение
+Message hello = () => Console.WriteLine("Hello");
+Message hello = () =>{Console.Write("Hello ");Console.WriteLine("World");};
+Operation sum = (x, y) => Console.WriteLine($"{x} + {y} = {x + y}");
+	Лямбда-выражение как аргумент метода
+int[] integers = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+int result1 = Sum(integers, x => x > 5);
+int result2 = Sum(integers, x => x % 2 == 0);
+Lambda Expression can be assigned to Func, Action or Predicate delegate.
+Lambda Expression can be invoked in a similar way to delegate.
+IsTeenAger isTeenAger = s => s.Age > 12 && s.Age < 20
+IsYoungerThan isYoungerThan = (Student s, int youngAge) => s.Age < youngAge
+Print print = () = ConsoleWriteLine("This is parameterless lambde expression");
+IsAdult isAdult = (s) => {int adultAge = 18; ConsoleWriteLine("Lambda with multiple statements in body"); return s.Age >= adultAge;};
+The lambda expression can be assigned to Func<in T, out TResult> type delegate
+Func<Student, bool> isStudentTeenAger = s => s.Age > 12 && s.Age < 20;
+Student stud = new Student(){Age = 21};
+ConsoleWriteLine(isStudentTeenAger(stud));
+Action delegate can only have input parameters. Use the Action delegate type when you don't need to return any value from lambda expression.​
+Action<Student> PrintStudentDetail = s => ConsoleWriteLine(s.Name, s.Age);
+Student std = new Student(){Name = "Bill", Age = 21};
+PrintStudentDetail(std);
+Predicate signature: 
+public delegate bool Predicate<in T>(T obj);
+	Extension Method
+An extension method is actually a special kind of static method defined in a static class. To define an extension method, first of all, define a static class.
+The first parameter of the extension method must be of the type for which the extension method is applicable, preceded by the this keyword.
+public static class IntExtensions{public static bool IsGreaterThan(this int i, int value){retyrn i > value;}}
+to use extension methods add using
+using ExtensionMethods;
+	Interface
+interface IInterface{} //declraing interface
+Interface members are public by default
+(IInterface)student.Action //cast class to interface
+	Generics
+piblic class DataStore<T>{piblic T id;} //generic class
+DataStore<int> data = new DataStore<int>(); //create generic class instance
+piblic class DataStore<T> where T : Employee //This declaration ensures that when an instance of EmployeeRecord is created, the only valid type arguments are of the type Employee or one of classes derived from the Employee class. 
+where T : struct  - Type argument must be a value type​
+where T : class - Type argument must be a reference type​
+where T : new() - Type argument must have a public parameterless constructor.​
+where T : <base class> - Type argument must inherit from <base class> class.​
+where T : <interface> -  Type argument must implement from <interface> interface.​
+where T : U - There are two type arguments T and U. T must be inherit from U.
+static void Swap<T>(ref T input1, ref T input2) //generic method
+	LINQ
+var evenNumbers = list.Where(n => n % 2 == 0);//The method accepts a Predicate
+var takeOneHundred = list.Take(100);//take 100 elements from list
+var takeOneHundred = list.Skip(100);//skip 100 elements from list
+var uniqueElements = list.Distinct();//Distinct returns a new enumerable where all duplicates are removed
+var uniqueAgedPeople = people.DistinctBy(p => p.Age);//DistinctBy works similar to Distinct but instead of the level of the object itself we can define a projection to a property where we want to have a distinct result set.
+var apples = fruits.OfType<Apple>();//checks every element in the enumeration if it is of a given type and returns them in new enumeration
+var targetObjects = objects.Select((o => new TargetObject(o.ToString()));
+var allIngredients = recipes.SelectMany(r => r.Ingredients);
+var stevens = names.Count(n => n == "Steven");//e count elements by a given function. If the function evaluates to true, we increase the counter by one.
+var sum = numbers.Aggregate(0, (curr, next) => curr + next);//aggregates/reduces all elements into a scalar value
+var oldest = people.MaxBy(p => p.Age);// retrieves the biggest element
+var hasDenseFood = fruits.Any(f => f.CaloriesPer100Gramm > 80);// checks if at least one element satisfies your condition.
+var hasDenseFood = fruits.All(f => f.CaloriesPer100Gramm > 80);// if All of your elements in the list satisfy a certain condition.
+var equal = numbers.SequenceEqual(moreNumbers);//checks if two sequences are equal
+	MULTITHREADING
+System.Threading - namespace
+Thread th = Thread.CurrentThread;
+th.Name = "MainThread";
+	THREAD STATE
+Unstarted State - potik stvorenui ta she ne byv zapysheniu
+Ready State - potik stvorenui i gotovui do zapysky i ochikue CPU cukly
+Not Runnable State - zablokovanui potik Sleep abo Wait metodamu abo ochikyiuchi operacii vvody/vuvody
+Dead State - potik zavershenui abo byv perervanui
+	THREAD PROPERTIES
+CurrentContext - povertae context v iakomy pracuie potochnui potik
+CurrentThread - povertae potik v iakomy zaraz vukonyetsia
+IsAlive - povertae status vokonannia potoky
+IsBackground - pokazue chu potik vukonyetsia y fonovomy rejumi chu ni
+Name - ima potoky
+Priority - priorutet
+ThreadState - povertae stan potoky
+	THREAD METHODS
+Start() - pochunae potik
+GetDomain() - povertae domen y iakomy bylo zapysheno potik
+GetDomainID() - overtae ID domeny v iakomy bylo zapysheno
+Sleep(int millisecondsTimeout) - zypuniae potik na period
+Join() - blokye vuklukaiuchui potik do zavershennia robotu potoky obekty na iakomy cei metod bylo vuklukano
+Interrupt() - pereruvae potik iakui perebyvae y stani Wait Sleep Join
+Abort() - iniciuie pereruvannia potoky
+	THREAD CREATION
+Thread myThread = new Thread(new ThreadStart(Method)) OR Thread myThread = new Thread(Method);
+myThread.Start();
+	TREAD WITH PARAMETERS
+Thread myThread = new Thread(new ParameterizedThreadStart(MethodWithParameters));
+myThread.Start(parameter);
+Якщо потрібно запустити потік з кількома параметрами то потрібно формувати параметри в клас і передавати обєкт класу
+	THREAD SYNCRONIZING
+Потоки які запущені в межах одного процесу можут ьмати доступ до спільних ресурсів
+для того щоб заборонити потоку доступ до спільних ресурсів використовують ключево слово lock
+static object locker = new object();
+public static void Count(){lock(locker){x = 1; cw(1);}}
+System.Thread.Monitor - спосіб синхронізувати потоки
+AutoResetEvent 
+Mutex - для блокування ресурсів одного потоку від інших
+Semaphore - для доступу декількох потоків до ресурсів
+Timer - щоб розпочати виконання потоку через деякий час
+	TASK CREATION
+Скрізь передаєм Action делегат
+Task task = new Task(() => Console.WriteLine("Hello"));
+task.Start;
+Task task = Task.Factory.StartNew(() => Console.WriteLine("Hello")); //task odrazy stvorutsia i zapystutsia
+Task task = Task.Run(() => Console.WriteLine("Hello"));
+task.Wait - chekaem poku taska vukonaetsia i todi zapyskaem potik dali
+	TASK PROPERTIES
+AsyncState - stan tasku
+CurrentID - id tasku
+Exception - vukliuchennia iake bylo pid chas vukonannia tasku
+Status - status vukonannia zadachi
+Таску можна запустити всередині іншої таски, вони будуть виконуватись незалежно одне від одного
+TaskCreationOptions.AttachedToParent - опція яку передаєм означає що батьківська таска буде чекати поки закінчиться також і дочірня таска
+Таски можна запускати з масиву
+Task.WaitAll(masuvTaskiv) - chekaie poku vukonaiutsia vsi tasku z masuvy
+Task.WaitAny(masuvTaskiv) - chekaie poku vukonaiutsia hochab odna tasku z masuv y
+Таски можут повертаи значення
+Task<Book> task = new Task<Book>(()=> {retunr new Book{Title = "Title", Author = "Dikkens"}});
+Book b = task.Result;
+	CONTINUATION TASK
+Вказують які задачі мають виконатись після деяких задач
+Task task1 = new Task(()=> cw("Hello"))
+task task2 = task1.ContinueWith(Приймає делегат з параметром Task); приклад: static void Display(Task t){cw("hi2");}
+	CLASS PARALLEL
+Parallel.Invoke() method takes an array of Action objects as parameter and runs tasks.
+Parallel.For(1, 10, Delegate) allows the parallel execution of loop iterations.
+Parallel.Foreach<int>(new List<int>(){1,2,3}, DElegate) works similarly to foreach loop for collections. It allows the parallel tasks execution.
+To interrupt the executing task Cancellation Token should be used.
+CancellationTokenSource cancelTokeSource = new CancellationTokenSource();
+CancellationToken token = cancelTokeSource.Token;
+if(token.CancelationRequested) return;
+cancelTokenSource.Cancel;	
+	ASYNC PROGRAMMING
+async 
+await
+	SOLID
+SRP: SINGLE RESPONSIBILITY PRINCIPLE
+клас поинен брати одну відповідальність і повинна бути одна причина змінити його
+модулі мають знати про інші модулі по мінімуму
+OCP: OPEN CLOSED PRINCIPLE
+програмний модуль відкритий для розришення(наслідування, параметри, композиція) і закрийти для модифікації
+OCP: OPEN CLOSED PRINCIPLE
+ви маєте мати можливість викоритсовувати похідний клас замість батьківського класу і він повинен себе вести так само без змін
+ISP: INTERFACE SEGREGATION PRINCIPLE
+замість одного товстого інтерфейсу беруть багато маленьких
+DIP: DEPENDENCY INVERSION PRINCIPLE
+не пиасти щільно звязаного коду, модулі високого рівня не повинні залежати від модулів низького рівня а від абстаркції
+	REFLECTION
+Дозволяє збирти додатку інформацію про себе а також маніпулювати собою
+	ASP NET
