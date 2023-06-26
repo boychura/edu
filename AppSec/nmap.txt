@@ -1,3 +1,4 @@
-  Scan IP:
+-Scan IP:
 sudo nmap -T4 -v -O -p- 159.223.230.244 -oN /home/nmap_out
-  If some services are found try to find if there are some exploits about taht service
+
+-If some services are found try to find if there are some exploits about taht service
