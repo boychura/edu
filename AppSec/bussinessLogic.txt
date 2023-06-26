@@ -1,0 +1,76 @@
+Time-of-Check-Time-of-Use (TOCTOU) and race condition issues
+delay between processing and checks, send a lot of requests and probably whene there is no money on card last request will be proccessed e.g. send from one card to another
+
+
+Price manipulation
+change price in request
+
+
+Currency manipulation 
+change money type(USD to UAH)
+
+saliami slicing
+when sent low money and summa okrygliaetsis v bilshy storony
+
+
+Quantity manipulation
+
+
+
+Shipping address and post method manipulation
+change address to make shipping price less
+
+
+Repeating an input parameter multiple times
+change password, use promocode etc.
+
+
+Omitting an input parameter or its value
+does not sent some parameters on server(for ecxample free delivery if price is more than 300)
+
+
+
+Negative numbers
+send negative values
+
+
+Decimal numbers
+send deciaml float numbers
+
+
+Large or small numbers
+send small or large numbers
+
+
+Overflows and underflows
+int byte shortint etc when 127 + 1 = -127
+
+
+Zero, null, or subnormal parameters or Exponential notation
+send 0, null, 1e3
+
+
+Type Juggling (img)
+"24" === 24?? depends on backend language
+google "Type Juggling"
+
+
+Reserved words
+null, true, false, none etc
+
+
+Numbers in different formats
+sent 10.0
+
+
+Changing the order upon payment completion
+change payment order steps(skip step 3)
+
+
+Changing the order after payment completion
+change order after completion
+
+
+Buy-x-get-y-free
+use action(but burger without cheese or 3 burgers by price of 2)
+

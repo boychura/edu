@@ -1,0 +1,55 @@
+host example.com
+wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/DNS/subdomains-top1million-5000.txt
+
+	Tmux
+new session
+tmux new -s recon
+tmux ls
+tmux a -t <sessionNumber>
+ctrl+b c - new tab
+ctrl+b <number> - switch to tab
+ctrl+b d - close currecnt window
+ctrl+b [ - scrolling (q to exit)
+ 
+	Find and sort all certs(automation example):
+curl -s https://crt.sh/\?q\=%25.bsg.tech\&output\=json | jq -r '.[].name_value' | sed 's/\*\.//g' | sort -u
+
+	Osmedeus(needs GO installed)
+bash <(curl -fsSL https://raw.githubusercontent.com/osmedeus/osmedeus-base/master/install.sh)
+osmedeus scan -m subdomain-enum -t https://boych.hr-yoga.online/
+
+	Amass
+sudo snap install amass
+amass enum -d https://boych.hr-yoga.online/
+
+	Dirsearch
+git clone https://github.com/maurosoria/dirsearch.git --depth 1
+cd dirsearch
+./dirsearch.py -u https://boych.hr-yoga.online/
+
+	Ffuf
+git clone https://github.com/ffuf/ffuf ; cd ffuf ; go get ; go build
+ffuf -u https://boych.hr-yoga.online/FUZZ -w wordlist.txt -o scan-results1.txt
+
+	Nmap
+sudo nmap -T4 -v -O -p- 159.223.230.244 -oN /home/nmap_out
+
+	Hashcat
+hashcat -m 0 hash.txt -O -a 3 -1 \?d\?l\?s\u \?1\?1\?1\?1\?1\?1\?1\?1\?1\?1
+
+	TruffleHog
+git clone https://github.com/trufflesecurity/trufflehog.git
+cd trufflehog; go install
+https://github.com/trufflesecurity/trufflehog
+
+	Awscli
+apt install awscli
+aws s3 ls s3://hr-yoga-aws-s3.s3.eu-central-1.amazonaws.com/ --no-sign-request
+aws s3 cp s3://images.bestfestivalcompany.com/flag.txt /home --no-sign-request
+
+	sqlmap https://github.com/sqlmapproject/sqlmap/wiki/Download-and-update
+sqlmap -u "https://boych.hr-yoga.online/" 
+--proxy=127.0.0.1:8080(burp proxy)
+--banner
+--dbms -base type payloads to test
+--os-cmd

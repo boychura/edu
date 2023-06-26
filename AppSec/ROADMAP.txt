@@ -1,0 +1,161 @@
+https://github.com/swisskyrepo/PayloadsAllTheThings
+
+	RECON
+Click all site tabs via Burp Suite browser
+Do active scan on Burp Suite menu
+Right click on site > Engagement tools > use all
+Intruder for username enumeration
+in intruder enumerate GET /$file$.txt and other 
+use different services to find information about company
+google dorking https://www.exploit-db.com/google-hacking-database e.g. use dorks in google: siteName inurl:"/admin"
+search certificates https://crt.sh/
+use Osmedeus
+use Amass for subdomains
+Aquatone take screenshots of found subdomains
+use FFUF for subdomains and folders or files
+use Dirsearch for directories
+use Nmap for network discovery(or massscan for a huge number of ip)
+platform mapping https://builtwith.com/
+Host header injection: change Host value to to localhost in request
+use truffleHog to find API keys on GitHub, AWS S3
+search on aws s3 using awscli
+
+	AUTHORIZATION
+****password:
+Default credentials
+blank password
+predictable username/password
+password same as username
+password rules
+use hashcat for decripting passwords if you have password hash
+pay attention to response after wrong account/password
+lock account if brutforce
+response OK if locked account but right password
+check response when bruteforcing credentials(length, difefrent warnings etc)
+if request is blocked by ip try to change or add ip header and add ip to intruder
+check server response time(use very long password, and if username is valid response will be long)
+2 factor predicctable or easy code can be done in intruder
+login as user and click /my-account for example, probably restricted things will be opened or 2MFA skipped
+****change password:
+ask current password
+check if brutforceble fields
+hints is not good
+easy restore questions
+****vulnerabilities
+remember me functionality
+activation link
+password distribution
+deleted\locked accounts
+insecure credentials storage
+
+	SESSION MANAGEMENT
+cookie contains information about user
+predicatable cookie token(new cookie is + 1 example)
+check jwt tokens in jwt.io
+session fixasion: go to site to get cookie, sent cookie to authorized user example.com/login?sessionId=123xyz, and you can authorize you cookiee
+
+	ACCESS CONTROL
+check all available buttons and tabs for each user and try to reach them using another user
+AuthMatrix, Authorize extensions(rifgth click on admin requests > Extensions > Sent to authmatrix > Paste simple user cookie session=asdasd)
+IDOR - my ticket is 2001, try to open ticket with id 2000
+
+	SQLi
+first of all add ' ad the end of the request, login form, headers, cookies etc(different sql have different signature, mysql etc)
+'-- (#, /*, --, ;%00)comments
+' or 1=1--
+https://portswigger.net/web-security/sql-injection/cheat-sheet
+breaking syntax the query: ', '', `, '), ''), `), etc
+union attack(union and return two tables instead one): ' union select null-,null,null-- 
+blind sql, time delay: '|| pg_sleep(10)--;(or another, use cheetlist)
+use sqlmap
+
+
+	NoSQL
+https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/NoSQL%20Injection/Intruder/NoSQL.txt
+[$ne]=1 - returns all wha is not ==1
+
+	CLi
+ls || id 	# OR 2nd executes when 1st failed
+ls && id 	# AND 2nd executes only when 1st success
+ls ; id 	# works in *nix executes 2nd after 1st
+ls &		# background
+ls >		# redirect to file
+ls |		# pipe to other command
+****way to use
+action=delete&file=fixed_asset_registry
+email,file etc ; ls
+email,file etc && ls
+email,file etc || ls /etc/hosts”
+request||sleep+10||
+request;cat+report.sh
+request||whoami>/var/www/images/1.txt||
+
+	DIRECTORY TRAVERSAL
+http://vuln.com/test.asp?view=../../../../../Windows/system.ini
+http://vuln.com/test.asp?view=..\..\..\..\..\..\Windows\system.ini
+../..././../../../ - try to broke 'firewall'
+
+	FILE UPLOAD
+find payloadallthethings and try to paste them into uploaded file
+eicar malware file to check how system reacts on it
+if file type is blacklisted find it other version
+change Content-type header, sent php by set image\gif in header
+if directory does not allow execute php use path traversal, paste ../ in the file name when uploading in request(probably use different encoding, check PATT)
+Set filename to ../../../tmp/lol.png and try to achieve a path traversal
+Set filename to ‘+sleep(10)-- -.jpg and you may be able to achieve a SQL injection
+Set filename to <svg onload=alert(document.domain)> to achieve a XSS
+Set filename to ; sleep 10; to test some command injection
+XSS in svg file upload
+XXE in svg upload
+Famous ImageTrick vulnerability
+If you can indicate the web server to catch file from a URL you could try to abuse a SSRF.
+****Whitelisted files
+file.jpg.php file.php.jpg file.php.blah123jpg 
+file.php%00.jpg file.php\x00.jpg file.php%20 file.php%0d%0a.jpg \r\n
+file.php..... file.php/ file.php.\ file. 
+
+	SSRF
+try to sent request on localhost, 192.168.0.x /admin(use encode) 
+file:/// 	- fetch file from the file system
+sftp://	- secure File Transfer Protocol
+ldap://	- Lightweight Directory Access Protocol
+http://	- nothing to said
+****localhost bypass
+spoofed.burpcollaborator.net
+localtest.me
+0177.0.0.1
+2130706433
+127.1
+
+	SSTI
+sent payloads everywhere, if error try to invistigate, find what is template name
+if sended data is displayed in response it is first step, play with it
+https://book.hacktricks.xyz/pentesting-web/ssti-server-side-template-injection
+
+	XXE
+add payloads to xml (<ENTITI xxe CODE >) and erplace value to &xxe;
+
+	XSS
+try <b> to chekc html injection
+<script>alert(document.cookie)</script>
+<img%20src="kqwlejqwe"%20onerror="alert(1337)">
+<svg/onload=alert(1337)>
+?jeff=%22-alert(1337)-%22
+vulnerability scanners
+xss is vulnerabiklity if you catch someone to that xss
+xss game helps a lot
+xss cheet sheat portswigger
+
+	SSRF
+if you can path=google.com - open redirect, log it in report, exaple.com?path='ggole.com' 
+
+	CORS
+Access-Control-Allow-Origin if = * that means allow requests from all sites
+if your Origin == Access-Control-Allow-Origin in response you can redirect cookie to that site(use JS), it is vulnerability, log it
+Access-Control-Allow-Credentials
+Access-Control-Allow-Headers
+Access-Control-Allow-Methods
+
+	CSRF
+if cookie has no SameSite checkbox log it
+restore password link contains new pasword and victim goes on it with his cookie
