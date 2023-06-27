@@ -1,3 +1,14 @@
+https://www.stationx.net/nmap-cheat-sheet/
+
+	Download and install:
+sudo apt-get install nmap
+
+	Check version if was preisntalled
+nmap --version
+
+	Help
+nmap -h
+
 	Scan IP:
 sudo nmap -T4 -v -O -p- 159.223.230.244 -oN /home/nmap_out
 
