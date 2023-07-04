@@ -1,4 +1,5 @@
 https://www.stationx.net/nmap-cheat-sheet/
+https://nmap.org/nsedoc/index.html - NSE scripts library
 
 	Download and install:
 sudo apt-get install nmap
@@ -14,6 +15,7 @@ nmap -h
 -v(vv) - more details, more 'v' more details
 -iR <number> scan random targets 
 --exclude <host1,[host2],[host3]> OR --excludefile <fileName>- exculue tagets, wprks if you work in diapsone e.g.
+-Pn - scan without discovering(if you know ports what to scan)
 
 	Discover types:
 -sL - light scan, returns DNS server names, can find dev or vpn servers
@@ -24,8 +26,35 @@ nmap -h
 	Scan types:
 -sS - TCP SYN, most popular and more hidden
 -sT - Connect()
--sA - ACK
--sW - Window
--sM - Maimon scans
+-sA - ACK scanning, used to find firewall rules, what ports are filtered
+-sW - Window scanning, almost the same as ACK but scan using type of realizations in systems, to separate ports for opened/closed
+-sN - TCP Null no bits in flags, can pass throught firefalls and routers with packege filtartion
+-sF - FIN bits, can pass throught firefalls and routers with packege filtartion
+-sX - Xmas different bit types, can pass throught firefalls and routers with packege filtartion
+-sM - Maimon scans use FIN ACK, can pass throught firefalls and routers with packege filtartion(can be usefull in BSD systems)
 -sU - UDP Scan(some services are in udp) can be combined with other scan types, slower than another scan types
 -sY - for mobile nets
+-sO - scanning for IP protocols
+
+	Port Specification
+-p 21-1000 - scan port ranges
+-p U:11,44,55,T:21-23,5,8800 -sU -sS - combine udp and tcp ports scanning
+-p http,https,ftp - search by ports assosiated with specific protocols
+-p0- scan all ports from 0 to 65555
+-p-65555 - scan all ports from 0 to 65555
+--exclude-perts 80,21,44-55 - exclude ports
+
+	Service/Versions detection
+-sV - scan services and their versions
+--version-intensity (from 1 to 9) - scanning version more deeply 1 - easy, 9 - hard
+--version-trace - show debug info
+
+	OS Detection
+-O - scan for OS detection(add -v for more details)
+--osscan-limit - scans only perpective targets if open and closed tcp ports are present
+
+	Script Scan
+-Sc - scan with default script
+--scipt default,safe -v -O -sV - scan using scripts from default and safe categories(os and version detection is needed for some scripts)
+--script==banner - scan using 'banner' script
+--script="http-*" - use all scripts starting with 'htpp-'
