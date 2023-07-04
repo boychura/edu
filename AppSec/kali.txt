@@ -1,5 +1,8 @@
 	Update:
 apt-get update && apt-get dist-upgrade
 
+	Search
+find / -name "*.txt"
+
 	Software:
 -Beef (xss grab monitor)
