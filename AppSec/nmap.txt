@@ -54,7 +54,36 @@ nmap -h
 --osscan-limit - scans only perpective targets if open and closed tcp ports are present
 
 	Script Scan
--Sc - scan with default script
---scipt default,safe -v -O -sV - scan using scripts from default and safe categories(os and version detection is needed for some scripts)
---script==banner - scan using 'banner' script
---script="http-*" - use all scripts starting with 'htpp-'
+Some scripts may require to download databases or api keys, check individually
+Some scripts are not present by defult, need to download it and place in nmap folder(qualys, nessus, openvas)
+--script-help {scriptName} - check if script contains attributes that we can set
+-Sc {target} - scan with default script
+--scipt default,safe -v -O -sV {target} - scan using scripts from default and safe categories(os and version detection is needed for some scripts)
+--script==banner {target} - scan using 'banner' script
+--script="http-*" {target} - use all scripts starting with 'htpp-'
+--script "not intrusive" --vv {target} - all scripts except scripts from not intrusive category
+--script ip-geolocation-* {target} - run all geolocation scripts
+--script {scriptName} --script-args argument=value {target}
+
+	Timing settings
+-T0 - paranoid, used to avoid invation regognztions systems, but slow
+-T1 - sneaky, used to avoid invation regognztions systems, but slow
+-T2 - polite, low system resources requriments
+-T3 - normal, default
+-T4 - aggresive, in fast network, for local network
+-T5 - insane, in fast netowrk, probably not accurate 
+
+	Avoiding firewall and spoofing
+-f - fragments packets
+-mtu - fragments packets
+-S {hostOne} {target} - discover as {hostOne}
+-g 53(20,88,67) {target} - use as port, common ports that get overtrusted
+--proxies {proxy1}, {proxy2} {target} - scan using proxy
+--data 0X00A {target} - add data to request
+--data-string "Serghiy scanned you system!" {target} - add string to request
+
+	Results output
+-oN results.txt - save default output to file
+-oX results.xml - save in xml
+-oG result.file - save for grep(search in file) format
+-oA results - create all 3 file types
